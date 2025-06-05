@@ -34,6 +34,8 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 
 // Enable JSON request body parsing
+app.use(express.json());
+
 // `extended: true` allows rich objects & arrays via querystring library
 app.use(express.urlencoded({ extended: true }));
 
