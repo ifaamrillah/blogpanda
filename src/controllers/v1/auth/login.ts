@@ -55,10 +55,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
       accessToken,
     };
 
-    res.status(201).json({
-      message: 'User logged in successfully',
-      data,
-    });
+    res.status(201).json(data);
 
     logger.info('User logged in successfully. User ID:', data);
   } catch (error) {
