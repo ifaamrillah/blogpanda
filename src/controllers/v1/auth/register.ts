@@ -2,12 +2,11 @@ import type { Request, Response } from 'express';
 
 import config from '@/config';
 
-import { logger } from '@/lib/winston';
-
 import User from '@/models/user';
 import type { IUser } from '@/models/user';
 import Token from '@/models/token';
 
+import { logger } from '@/lib/winston';
 import { generateAccessToken, generateRefreshToken } from '@/lib/jwt';
 
 import { generateUsername } from '@/utils';
