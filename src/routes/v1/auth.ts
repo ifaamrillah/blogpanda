@@ -5,10 +5,12 @@ import bcrypt from 'bcrypt';
 import User from '@/models/user';
 
 import validationError from '@/middlewares/validationError';
+import authenticate from '@/middlewares/authenticate';
 
 import register from '@/controllers/v1/auth/register';
 import login from '@/controllers/v1/auth/login';
 import refreshToken from '@/controllers/v1/auth/refresh-token';
+import logout from '@/controllers/v1/auth/logout';
 
 const router = Router();
 
@@ -93,5 +95,7 @@ router.post(
     .withMessage('Invalid refresh token'),
   refreshToken,
 );
+
+router.post('/logout', authenticate, logout);
 
 export default router;
