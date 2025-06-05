@@ -3,6 +3,8 @@ import type { ConnectOptions } from 'mongoose';
 
 import config from '@/config';
 
+import { logger } from '@/lib/winston';
+
 const clientOptions: ConnectOptions = {
   dbName: 'blogpanda',
   appName: 'Blog Panda',
@@ -28,7 +30,7 @@ export const connectToDatabase = async (): Promise<void> => {
 
   try {
     await mongoose.connect(config.MONGO_URI, clientOptions);
-    console.log('Connected to MongoDB successfully', {
+    logger.info('Connected to MongoDB successfully', {
       uri: config.MONGO_URI,
       options: clientOptions,
     });
@@ -36,7 +38,7 @@ export const connectToDatabase = async (): Promise<void> => {
     if (error instanceof Error) {
       throw new Error(`Error connecting to MongoDB: ${error.message}`);
     }
-    console.log('Error connecting to MongoDB', error);
+    logger.error('Error connecting to MongoDB', error);
   }
 };
 
@@ -50,7 +52,7 @@ export const connectToDatabase = async (): Promise<void> => {
 export const disconnectFromDatabase = async (): Promise<void> => {
   try {
     await mongoose.disconnect();
-    console.log('Disconnected from MongoDB successfully', {
+    logger.info('Disconnected from MongoDB successfully', {
       uri: config.MONGO_URI,
       options: clientOptions,
     });
@@ -58,6 +60,6 @@ export const disconnectFromDatabase = async (): Promise<void> => {
     if (error instanceof Error) {
       throw new Error(`Error disconnecting from MongoDB: ${error.message}`);
     }
-    console.log('Error disconnecting from MongoDB', error);
+    logger.error('Error disconnecting from MongoDB', error);
   }
 };
