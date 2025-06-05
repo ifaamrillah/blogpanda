@@ -7,6 +7,7 @@ const config = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   MAIN_DOCS: process.env.MAIN_DOCS,
   WHITELIST_ORIGINS: [process.env.MAIN_DOCS],
+  MONGO_URI: process.env.MONGO_URI,
 };
 
 export default config;
