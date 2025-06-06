@@ -9,6 +9,7 @@ import authorize from '@/middlewares/authorize';
 import getCurrentUser from '@/controllers/v1/user/get-current-user';
 import updateCurrentUser from '@/controllers/v1/user/update-current-user';
 import validationError from '@/middlewares/validationError';
+import deleteCurrentUser from '@/controllers/v1/user/delete-current-user';
 
 const router = Router();
 
@@ -72,6 +73,13 @@ router.put(
     .withMessage('URL must be less then 100 characters'),
   validationError,
   updateCurrentUser,
+);
+
+router.delete(
+  '/current',
+  authenticate,
+  authorize(['user', 'admin']),
+  deleteCurrentUser,
 );
 
 export default router;
