@@ -66,10 +66,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
       accessToken,
     };
 
-    res.status(201).json({
-      message: 'User registered successfully',
-      data,
-    });
+    res.status(201).json(data);
 
     logger.info(`User ID: ${newUser._id} registered successfully.`);
   } catch (error) {
