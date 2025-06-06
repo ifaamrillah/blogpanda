@@ -58,7 +58,7 @@ const updateCurrentUser = async (
 
     res.status(200).json({ user: userObj });
 
-    logger.info('Current user updated successfully.', userObj);
+    logger.info(`Current User ID: ${userId} updated successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',

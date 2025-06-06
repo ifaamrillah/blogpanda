@@ -71,7 +71,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
       data,
     });
 
-    logger.info('User registered successfully. User ID:', data);
+    logger.info(`User ID: ${newUser._id} registered successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',

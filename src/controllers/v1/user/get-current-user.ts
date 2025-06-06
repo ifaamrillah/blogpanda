@@ -14,7 +14,7 @@ const getCurrentUser = async (req: Request, res: Response): Promise<void> => {
       user,
     });
 
-    logger.info('Current user fetched successfully.', user);
+    logger.info(`Current User ID: ${userId} fetched successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',

@@ -57,7 +57,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json(data);
 
-    logger.info('User logged in successfully. User ID:', data);
+    logger.info(`User ID: ${user._id} logged in successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',

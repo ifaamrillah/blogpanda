@@ -58,7 +58,7 @@ router.post(
     .custom(async (value) => {
       const userExists = await User.findOne({ email: value });
       if (!userExists) {
-        throw new Error('User already exists');
+        throw new Error('Email or password is incorrect');
       }
     }),
   body('password')

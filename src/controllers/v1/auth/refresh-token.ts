@@ -31,6 +31,8 @@ const refreshToken = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
       accessToken,
     });
+
+    logger.info(`User ID: ${req.userId} refreshed token successfully.`);
   } catch (error) {
     if (error instanceof TokenExpiredError) {
       res.status(401).json({

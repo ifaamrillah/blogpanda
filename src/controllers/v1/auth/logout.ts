@@ -27,9 +27,7 @@ const logout = async (req: Request, res: Response): Promise<void> => {
 
     res.sendStatus(204);
 
-    logger.info('User logged out successfully.', {
-      userId: req.userId,
-    });
+    logger.info(`User ID: ${req.userId} logged out successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',
