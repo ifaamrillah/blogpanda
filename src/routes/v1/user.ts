@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { query, body } from 'express-validator';
+import { param, query, body } from 'express-validator';
 
 import User from '@/models/user';
 
@@ -8,6 +8,7 @@ import authorize from '@/middlewares/authorize';
 import validationError from '@/middlewares/validationError';
 
 import getAllUsers from '@/controllers/v1/user/get-all-users';
+import getUserById from '@/controllers/v1/user/get-user-by-id';
 import getCurrentUser from '@/controllers/v1/user/get-current-user';
 import updateCurrentUser from '@/controllers/v1/user/update-current-user';
 import deleteCurrentUser from '@/controllers/v1/user/delete-current-user';
@@ -28,6 +29,15 @@ router.get(
     .withMessage('Offset must be at least 1'),
   validationError,
   getAllUsers,
+);
+
+router.get(
+  '/:userId',
+  authenticate,
+  authorize(['admin']),
+  param('userId').notEmpty().withMessage('User ID is required'),
+  validationError,
+  getUserById,
 );
 
 router.get(
