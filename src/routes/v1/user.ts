@@ -1,17 +1,34 @@
 import { Router } from 'express';
-import { body } from 'express-validator';
+import { query, body } from 'express-validator';
 
 import User from '@/models/user';
 
 import authenticate from '@/middlewares/authenticate';
 import authorize from '@/middlewares/authorize';
+import validationError from '@/middlewares/validationError';
 
+import getAllUsers from '@/controllers/v1/user/get-all-users';
 import getCurrentUser from '@/controllers/v1/user/get-current-user';
 import updateCurrentUser from '@/controllers/v1/user/update-current-user';
-import validationError from '@/middlewares/validationError';
 import deleteCurrentUser from '@/controllers/v1/user/delete-current-user';
 
 const router = Router();
+
+router.get(
+  '/',
+  authenticate,
+  authorize(['admin']),
+  query('limit')
+    .optional()
+    .isInt({ min: 1, max: 50 })
+    .withMessage('Limit must be between 1 and 50'),
+  query('offset')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('Offset must be at least 1'),
+  validationError,
+  getAllUsers,
+);
 
 router.get(
   '/current',
