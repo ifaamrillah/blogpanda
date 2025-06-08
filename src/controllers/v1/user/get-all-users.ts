@@ -25,6 +25,8 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
       limit: Number(limit),
       offset: Number(offset),
     });
+
+    logger.info(`All users fetched successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',
@@ -32,7 +34,7 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
       error: error,
     });
 
-    logger.error('Error getting all current user:', error);
+    logger.error('Error getting all user:', error);
   }
 };
 

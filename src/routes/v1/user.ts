@@ -9,6 +9,7 @@ import validationError from '@/middlewares/validationError';
 
 import getAllUsers from '@/controllers/v1/user/get-all-users';
 import getUserById from '@/controllers/v1/user/get-user-by-id';
+import deleteUserById from '@/controllers/v1/user/delete-user-by-id';
 import getCurrentUser from '@/controllers/v1/user/get-current-user';
 import updateCurrentUser from '@/controllers/v1/user/update-current-user';
 import deleteCurrentUser from '@/controllers/v1/user/delete-current-user';
@@ -38,6 +39,15 @@ router.get(
   param('userId').notEmpty().withMessage('User ID is required'),
   validationError,
   getUserById,
+);
+
+router.delete(
+  '/:userId',
+  authenticate,
+  authorize(['admin']),
+  param('userId').notEmpty().withMessage('User ID is required'),
+  validationError,
+  deleteUserById,
 );
 
 router.get(

@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 
-import config from '@/config';
-
 import User from '@/models/user';
 
 import { logger } from '@/lib/winston';
@@ -23,6 +21,8 @@ const getUserById = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
       user,
     });
+
+    logger.info(`User ID: ${userId} fetched successfully.`);
   } catch (error) {
     res.status(500).json({
       code: 'ServerError',
@@ -30,7 +30,7 @@ const getUserById = async (req: Request, res: Response): Promise<void> => {
       error: error,
     });
 
-    logger.error('Error getting all current user:', error);
+    logger.error('Error getting user by id:', error);
   }
 };
 
