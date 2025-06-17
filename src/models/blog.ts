@@ -1,5 +1,7 @@
 import { model, Schema, Types } from 'mongoose';
 
+import { generateSlug } from '@/utils';
+
 export interface IBlog {
   title: string;
   slug: string;
@@ -83,5 +85,13 @@ const blogSchema = new Schema<IBlog>(
     },
   },
 );
+
+blogSchema.pre('validate', function (next) {
+  if (this.title && !this.slug) {
+    this.slug = generateSlug(this.title);
+  }
+
+  next();
+});
 
 export default model<IBlog>('Blog', blogSchema);
