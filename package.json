@@ -25,6 +25,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.9",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.6.1",
