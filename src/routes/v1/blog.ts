@@ -1,8 +1,6 @@
 import { Router } from 'express';
-import { param, query, body } from 'express-validator';
+import { query, body } from 'express-validator';
 import multer from 'multer';
-
-import User from '@/models/user';
 
 import authenticate from '@/middlewares/authenticate';
 import authorize from '@/middlewares/authorize';
@@ -10,6 +8,7 @@ import validationError from '@/middlewares/validationError';
 import uploadBlogBanner from '@/middlewares/uploadBlogBanner';
 
 import createBlog from '@/controllers/v1/blog/create-blog';
+import getAllBlogs from '@/controllers/v1/blog/get-all-blogs';
 
 const upload = multer();
 const router = Router();
@@ -18,7 +17,9 @@ router.post(
   '/',
   authenticate,
   authorize(['admin']),
-  body('banner_image').notEmpty().withMessage('Banner image is required'),
+  upload.single('banner_image'),
+  uploadBlogBanner('post'),
+  body('banner').notEmpty().withMessage('Banner image is required'),
   body('title')
     .trim()
     .notEmpty()
@@ -31,9 +32,23 @@ router.post(
     .isIn(['draft', 'published'])
     .withMessage('Status must be draft or published'),
   validationError,
-  upload.single('banner_image'),
-  uploadBlogBanner('post'),
   createBlog,
+);
+
+router.get(
+  '/',
+  authenticate,
+  authorize(['admin', 'user']),
+  query('limit')
+    .optional()
+    .isInt({ min: 1, max: 50 })
+    .withMessage('Limit must be between 1 and 50'),
+  query('offset')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('Offset must be at least 1'),
+  validationError,
+  getAllBlogs,
 );
 
 export default router;
