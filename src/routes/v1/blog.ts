@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { query, body } from 'express-validator';
+import { query, body, param } from 'express-validator';
 import multer from 'multer';
 
 import authenticate from '@/middlewares/authenticate';
@@ -9,6 +9,7 @@ import uploadBlogBanner from '@/middlewares/uploadBlogBanner';
 
 import createBlog from '@/controllers/v1/blog/create-blog';
 import getAllBlogs from '@/controllers/v1/blog/get-all-blogs';
+import getBlogBySlug from '@/controllers/v1/blog/get-blog-by-slug';
 
 const upload = multer();
 const router = Router();
@@ -49,6 +50,15 @@ router.get(
     .withMessage('Offset must be at least 1'),
   validationError,
   getAllBlogs,
+);
+
+router.get(
+  '/:slug',
+  authenticate,
+  authorize(['admin', 'user']),
+  param('slug').notEmpty().withMessage('Slug is required'),
+  validationError,
+  getBlogBySlug,
 );
 
 export default router;
