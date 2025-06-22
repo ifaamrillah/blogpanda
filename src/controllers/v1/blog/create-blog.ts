@@ -13,10 +13,10 @@ const window = new JSDOM('').window;
 const purify = createDOMPurify(window);
 
 const createBlog = async (req: Request, res: Response): Promise<void> => {
-  const { title, content, banner, status } = req.body as BlogData;
-  const userId = req.userId;
-
   try {
+    const { title, content, banner, status } = req.body as BlogData;
+    const userId = req.userId;
+
     const cleanContent = purify.sanitize(content);
 
     const newBlog = await Blog.create({
