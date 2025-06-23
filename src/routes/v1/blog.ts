@@ -10,6 +10,7 @@ import uploadBlogBanner from '@/middlewares/uploadBlogBanner';
 import createBlog from '@/controllers/v1/blog/create-blog';
 import getAllBlogs from '@/controllers/v1/blog/get-all-blogs';
 import getBlogBySlug from '@/controllers/v1/blog/get-blog-by-slug';
+import updateBlogById from '@/controllers/v1/blog/update-blog-by-id';
 
 const upload = multer();
 const router = Router();
@@ -19,8 +20,6 @@ router.post(
   authenticate,
   authorize(['admin']),
   upload.single('banner_image'),
-  uploadBlogBanner('post'),
-  body('banner').notEmpty().withMessage('Banner image is required'),
   body('title')
     .trim()
     .notEmpty()
@@ -33,6 +32,7 @@ router.post(
     .isIn(['draft', 'published'])
     .withMessage('Status must be draft or published'),
   validationError,
+  uploadBlogBanner('post'),
   createBlog,
 );
 
@@ -59,6 +59,26 @@ router.get(
   param('slug').notEmpty().withMessage('Slug is required'),
   validationError,
   getBlogBySlug,
+);
+
+router.put(
+  '/:blogId',
+  authenticate,
+  authorize(['admin']),
+  param('blogId').notEmpty().withMessage('Invalid blog Id'),
+  upload.single('banner_image'),
+  body('title')
+    .optional()
+    .isLength({ max: 180 })
+    .withMessage('Title must be less then 180 characters'),
+  body('content').trim().notEmpty().withMessage('Content is required'),
+  body('status')
+    .optional()
+    .isIn(['draft', 'published'])
+    .withMessage('Status must be draft or published'),
+  validationError,
+  uploadBlogBanner('put'),
+  updateBlogById,
 );
 
 export default router;
