@@ -11,6 +11,7 @@ import createBlog from '@/controllers/v1/blog/create-blog';
 import getAllBlogs from '@/controllers/v1/blog/get-all-blogs';
 import getBlogBySlug from '@/controllers/v1/blog/get-blog-by-slug';
 import updateBlogById from '@/controllers/v1/blog/update-blog-by-id';
+import deleteBlogById from '@/controllers/v1/blog/delete-blog-by-id';
 
 const upload = multer();
 const router = Router();
@@ -79,6 +80,15 @@ router.put(
   validationError,
   uploadBlogBanner('put'),
   updateBlogById,
+);
+
+router.delete(
+  '/:blogId',
+  authenticate,
+  authorize(['admin']),
+  param('blogId').notEmpty().withMessage('Invalid blog Id'),
+  validationError,
+  deleteBlogById,
 );
 
 export default router;
